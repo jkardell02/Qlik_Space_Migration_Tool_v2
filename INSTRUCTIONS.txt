@@ -1,0 +1,31 @@
+═══════════════════════════════════════════════════════════════════
+               GET YOUR CLICKABLE .EXE AND .DMG
+═══════════════════════════════════════════════════════════════════
+
+STEP 1: Go to github.com and create a free account (or log in)
+
+STEP 2: Click the + button → New repository
+        - Name: qlik-migration-tool  
+        - Keep it Public
+        - Click Create
+
+STEP 3: Click "uploading an existing file"
+        - Drag ALL files from this ZIP onto the page
+        - IMPORTANT: Include the .github folder!
+        - Click "Commit changes"
+
+STEP 4: Click the "Actions" tab
+        - Wait 2-3 minutes for green checkmarks ✓
+
+STEP 5: Click the completed run → scroll to "Artifacts"
+        - Download QlikMigrationTool-Windows (the .exe)
+        - Download QlikMigrationTool-macOS-Intel (the .dmg for older Macs)
+        - Download QlikMigrationTool-macOS-AppleSilicon (for M1/M2/M3 Macs)
+
+═══════════════════════════════════════════════════════════════════
+                         DONE!
+═══════════════════════════════════════════════════════════════════
+
+Share the .exe and .dmg files with your users.
+They just double-click to run - browser opens automatically!
+
