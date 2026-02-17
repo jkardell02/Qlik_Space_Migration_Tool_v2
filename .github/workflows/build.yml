@@ -3,7 +3,7 @@ name: Build Executables
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # Allows manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   build-windows:
@@ -20,16 +20,16 @@ jobs:
         run: npm install
         
       - name: Build Windows executable
-        run: npm run build:win
+        run: npx pkg . --target node18-win-x64 --output dist/QlikMigrationTool.exe
         
       - name: Upload Windows executable
         uses: actions/upload-artifact@v4
         with:
           name: QlikMigrationTool-Windows
-          path: dist/qlik-migration-tool-win.exe
+          path: dist/QlikMigrationTool.exe
 
   build-macos-intel:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
       
@@ -42,16 +42,16 @@ jobs:
         run: npm install
         
       - name: Build macOS Intel executable
-        run: npm run build:mac
+        run: npx pkg . --target node18-macos-x64 --output "dist/Qlik Migration Tool"
         
       - name: Make executable
-        run: chmod +x dist/qlik-migration-tool-macos
+        run: chmod +x "dist/Qlik Migration Tool"
         
       - name: Create DMG
         run: |
           mkdir -p dmg-contents
-          cp dist/qlik-migration-tool-macos "dmg-contents/Qlik Migration Tool"
-          hdiutil create -volname "Qlik Migration Tool" -srcfolder dmg-contents -ov -format UDZO QlikMigrationTool-Intel.dmg
+          cp "dist/Qlik Migration Tool" dmg-contents/
+          hdiutil create -volname "Qlik Migration Tool" -srcfolder dmg-contents -ov -format UDZO "QlikMigrationTool-Intel.dmg"
           
       - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
@@ -60,7 +60,7 @@ jobs:
           path: QlikMigrationTool-Intel.dmg
 
   build-macos-arm:
-    runs-on: macos-14  # M1 runner
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       
@@ -73,18 +73,18 @@ jobs:
         run: npm install
         
       - name: Build macOS ARM executable
-        run: npm run build:mac-arm
+        run: npx pkg . --target node18-macos-arm64 --output "dist/Qlik Migration Tool"
         
       - name: Make executable
-        run: chmod +x dist/qlik-migration-tool-macos-arm64
+        run: chmod +x "dist/Qlik Migration Tool"
         
       - name: Create DMG
         run: |
           mkdir -p dmg-contents
-          cp dist/qlik-migration-tool-macos-arm64 "dmg-contents/Qlik Migration Tool"
-          hdiutil create -volname "Qlik Migration Tool" -srcfolder dmg-contents -ov -format UDZO QlikMigrationTool-AppleSilicon.dmg
+          cp "dist/Qlik Migration Tool" dmg-contents/
+          hdiutil create -volname "Qlik Migration Tool" -srcfolder dmg-contents -ov -format UDZO "QlikMigrationTool-AppleSilicon.dmg"
           
-      - name: Upload macOS ARM DMG
+      - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
         with:
           name: QlikMigrationTool-macOS-AppleSilicon
