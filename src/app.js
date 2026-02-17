@@ -13,25 +13,21 @@ const FormData = require('form-data');
 const path = require('path');
 const fs = require('fs');
 
-// For opening browser - handle both pkg and regular node
-let openBrowser;
-try {
-  openBrowser = require('open');
-} catch (e) {
-  // Fallback for systems without 'open' package
-  openBrowser = async (url) => {
-    const { exec } = require('child_process');
-    const platform = process.platform;
-    let cmd;
-    if (platform === 'win32') {
-      cmd = `start "" "${url}"`;
-    } else if (platform === 'darwin') {
-      cmd = `open "${url}"`;
-    } else {
-      cmd = `xdg-open "${url}"`;
-    }
-    exec(cmd);
-  };
+// Open browser using system commands (works reliably in compiled executables)
+function openBrowser(url) {
+  const { exec } = require('child_process');
+  const platform = process.platform;
+  let cmd;
+  if (platform === 'win32') {
+    cmd = `start "" "${url}"`;
+  } else if (platform === 'darwin') {
+    cmd = `open "${url}"`;
+  } else {
+    cmd = `xdg-open "${url}"`;
+  }
+  exec(cmd, (err) => {
+    if (err) console.log('Could not open browser automatically. Please open:', url);
+  });
 }
 
 // ============================================================================
@@ -458,12 +454,7 @@ async function main() {
     console.log('Press Ctrl+C to quit.');
     console.log('─────────────────────────────────────────────────────────────');
     
-    try {
-      await openBrowser(url);
-    } catch (e) {
-      console.log(`\nCould not open browser automatically.`);
-      console.log(`Please open this URL manually: ${url}`);
-    }
+    openBrowser(url);
   });
 }
 
